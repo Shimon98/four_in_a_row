@@ -1,5 +1,5 @@
-import { findLandingRow, draw } from "./boardLogic.js";
-import { checkWin } from "./checkWin.js";
+import {findLandingRow, draw} from "./boardLogic.js";
+import {checkWin} from "./checkWin.js";
 
 export const chooseBotColumn = (board, botPlayer, humanPlayer) => {
     const cols = board[0].length;

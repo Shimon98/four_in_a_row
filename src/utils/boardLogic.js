@@ -3,7 +3,7 @@ export const createBoard = (rows, cols) => {
     for (let row = 0; row < rows; row++) {
         const tempRow = [];
         for (let col = 0; col < cols; col++) {
-            tempRow.push({ value: "", color: "" });
+            tempRow.push({value: "", color: ""});
         }
         newBoard.push(tempRow);
     }
@@ -11,7 +11,7 @@ export const createBoard = (rows, cols) => {
 };
 
 export const copyBoard = (board) => {
-    return board.map(row => row.map(cell => ({ ...cell })));
+    return board.map(row => row.map(cell => ({...cell})));
 };
 
 export const isColumnFull = (board, colIndex) => {

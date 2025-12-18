@@ -1,4 +1,3 @@
-
 function inBounds(board, r, c) {
     return r >= 0 && r < board.length && c >= 0 && c < board[0].length;
 }

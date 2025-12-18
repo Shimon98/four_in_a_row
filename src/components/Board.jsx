@@ -8,7 +8,7 @@ export default function Board(props) {
     const STEP = CELL + GAP;
 
     const cols = props.board[0].length;
-    const gridStyle = { gridTemplateColumns: "repeat(" + cols + ", 60px)" };
+    const gridStyle = {gridTemplateColumns: "repeat(" + cols + ", 60px)"};
     const lastMove = props.lastMove;
 
     return (
@@ -63,7 +63,6 @@ export default function Board(props) {
                     })
                 )}
             </div>
-
         </>
     );
 }

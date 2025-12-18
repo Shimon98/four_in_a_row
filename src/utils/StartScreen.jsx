@@ -17,7 +17,7 @@ export default function StartScreen({onStart}) {
 
     return (
         <div>
-            <div style={{ display: "flex", justifyContent: "center", gap: "10px", marginBottom: "10px" }}>
+            <div style={{display: "flex", justifyContent: "center", gap: "10px", marginBottom: "10px"}}>
                 <label>
                     <input
                         type="checkbox"

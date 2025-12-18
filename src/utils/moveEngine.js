@@ -1,9 +1,9 @@
-import { isColumnFull, findLandingRow, draw, totalCells } from "./boardLogic.js";
-import { checkWin } from "./checkWin.js";
+import {isColumnFull, findLandingRow, draw, totalCells} from "./boardLogic.js";
+import {checkWin} from "./checkWin.js";
 
 export const doMove = (board, colIndex, currentPlayer, moveCount) => {
     if (isColumnFull(board, colIndex)) {
-        return { didPlace: false };
+        return {didPlace: false};
     }
     const placedRow = findLandingRow(board, colIndex);
     const updatedBoard = draw(board, placedRow, colIndex, currentPlayer);
@@ -21,6 +21,6 @@ export const doMove = (board, colIndex, currentPlayer, moveCount) => {
         nextMoveCount,
         winner,
         isDraw,
-        lastMove: { row: placedRow, col: colIndex }
+        lastMove: {row: placedRow, col: colIndex}
     };
 };

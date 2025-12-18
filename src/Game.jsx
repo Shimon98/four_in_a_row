@@ -1,5 +1,5 @@
-import Board from "./utils/Board.jsx";
-import Player from "./utils/Player.jsx";
+import Board from "./components/Board.jsx";
+import Player from "./components/Player.jsx";
 import StartScreen from "./utils/StartScreen.jsx";
 import "./Game.css";
 import {createBoard} from "./utils/boardLogic.js";
@@ -23,7 +23,6 @@ export default function Game() {
     const [hoverCol, setHoverCol] = useState(null)
     const [lastMove, setLastMove] = useState(null);
     const [isBotThinking, setIsBotThinking] = useState(false);
-
 
 
     const resetState = () => {
@@ -70,7 +69,6 @@ export default function Game() {
         if (currentPlayer.isBot){
             setIsBotThinking===true;
         }
-
     };
 
     const startBotTurn = () => {
@@ -108,6 +106,7 @@ export default function Game() {
         }
         switchPlayer();
     };
+
     useEffect(() => {
         if (!board) return;
         if (!players[1].isBot) return;
