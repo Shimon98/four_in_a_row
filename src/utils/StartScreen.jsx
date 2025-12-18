@@ -7,6 +7,7 @@ export default function StartScreen({onStart}) {
 
     const [p1Color, setP1Color] = useState("red");
     const [p2Color, setP2Color] = useState("gold");
+    const [vsBot, setVsBot] = useState(false);
 
     const sizes = [
         {label: "Small", rows: 4, cols: 5},
@@ -16,12 +17,24 @@ export default function StartScreen({onStart}) {
 
     return (
         <div>
+            <div style={{ display: "flex", justifyContent: "center", gap: "10px", marginBottom: "10px" }}>
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={vsBot}
+                        onChange={(e) => setVsBot(e.target.checked)}
+                    />
+                    Player vs Bot
+                </label>
+            </div>
+
+
             <h2>Choose board size</h2>
             <div style={{display: "flex", gap: "10px", justifyContent: "center", marginBottom: "10px"}}>
                 {sizes.map((s) => (
                     <button
                         key={s.label}
-                        onClick={() => onStart(s.rows, s.cols, p1Color, p2Color)}
+                        onClick={() => onStart(s.rows, s.cols, p1Color, p2Color, vsBot)}
                     >
                         {s.label}
                     </button>

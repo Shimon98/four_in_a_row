@@ -1,4 +1,4 @@
-import {useState} from "react";
+
 import Board from "./utils/Board.jsx";
 import Player from "./utils/Player.jsx";
 import StartScreen from "./utils/StartScreen.jsx";
@@ -10,8 +10,8 @@ import { chooseBotColumn } from "./utils/botLogic.js";
 
 export default function Game() {
     const [players, setPlayers] = useState([
-        {id: "Player 1", color: "red"},
-        {id: "Player 2", color: "gold"}
+        {id: "Player 1", color: "red", isBot: false},
+        {id: "Player 2", color: "gold", isBot: false}
     ]);
 
     const [size, setSize] = useState(null);
@@ -24,6 +24,9 @@ export default function Game() {
     const [hoverCol, setHoverCol] = useState(null)
     const [lastMove, setLastMove] = useState(null);
 
+    const [isBotThinking, setIsBotThinking] = useState(false);
+
+
     const resetState = () => {
         setWinner(null);
         setIsDraw(false);
@@ -33,13 +36,12 @@ export default function Game() {
         setLastMove(null);
     };
 
-    const startGame = (rows, cols, p1Color, p2Color) => {
+    const startGame = (rows, cols, p1Color, p2Color, vsBot) => {
         const newPlayers = [
-            {id: "Player 1", color: p1Color},
-            {id: "Player 2", color: p2Color}
+            {id: "Player 1", color: p1Color, isBot: false},
+            {id: "Player 2", color: p2Color, isBot: vsBot}
         ];
         setPlayers(newPlayers);
-
         setSize({rows, cols});
         setBoard(createBoard(rows, cols));
         setCurrentPlayer(newPlayers[0]);
@@ -68,8 +70,23 @@ export default function Game() {
         setCurrentPlayer(currentPlayer.id === players[0].id ? players[1] : players[0]);
     };
 
+    const startBotTurn = () => {
+        setIsBotThinking(true);
+        setTimeout(() => {
+            const botCol = chooseBotColumn(board, currentPlayer,
+                players.find(p => !p.isBot)
+            );
+            setIsBotThinking(false);
+            if (botCol === null) return;
+            handleColumnClick(botCol);
+        }, 3000);
+    };
+
+
+
     const handleColumnClick = (colIndex) => {
         if (winner !== null || isDraw) return;
+        if (isBotThinking) return;
         const result = doMove(board, colIndex, currentPlayer, moveCount);
         if (!result.didPlace) {
             triggerShake();
@@ -90,6 +107,15 @@ export default function Game() {
         }
         switchPlayer();
     };
+    useEffect(() => {
+        if (!board) return;
+        if (!players[1].isBot) return;
+        if (winner !== null || isDraw) return;
+        if (!currentPlayer.isBot) return;
+        if (isBotThinking) return;
+        startBotTurn();
+    }, [board, currentPlayer, winner, isDraw, players, isBotThinking]);
+
 
 
     if (board === null) {

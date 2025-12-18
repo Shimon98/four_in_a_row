@@ -3,6 +3,7 @@ import "./Player.css";
 export default function Player(props) {
     const playerId = props.id;
     const playerColor = props.color;
+    const isBot=props.isBot
 
     return (
         <div className="player">
