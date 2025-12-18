@@ -8,7 +8,6 @@ h2 {
     font-family: Arial;
 }
 
-
 div.board-container {
     display: grid;
     gap: 8px;
@@ -21,7 +20,6 @@ div.board-container {
     overflow: hidden;
 
 }
-
 
 div.board-cell {
     width: 60px;
@@ -38,7 +36,6 @@ div.board-cell {
     overflow: hidden;
 }
 
-
 .disc {
     width: 52px;
     height: 52px;
@@ -46,7 +43,6 @@ div.board-cell {
     border: 3px solid rgba(0,0,0,0.35);
     box-shadow: inset 0 5px 0 rgba(255,255,255,0.35);
 }
-
 
 .arrow-row{
     display: grid;
@@ -64,7 +60,6 @@ div.board-cell {
     align-items: center;
 }
 
-
 .preview-disc {
     width: 52px;
     height: 52px;
@@ -72,7 +67,6 @@ div.board-cell {
     border: 3px solid rgba(0,0,0,0.35);
     box-shadow: inset 0 5px 0 rgba(255,255,255,0.35);
 }
-
 
 .disc.drop {
     animation: drop 420ms ease-out;

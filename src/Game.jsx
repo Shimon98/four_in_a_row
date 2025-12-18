@@ -114,6 +114,7 @@ export default function Game() {
                 {winner === null && !isDraw && <p>Current turn: {currentPlayer.id}</p>}
                 <Player id={currentPlayer.id} color={currentPlayer.color}/>
 
+                <div className="board-fit">
                 <Board
                     board={board}
                     shake={shake}
@@ -123,6 +124,7 @@ export default function Game() {
                     courntPlayer={currentPlayer}
                     lastMove={lastMove}
                 />
+                </div>
 
                 <div style={{display: "flex", gap: "10px", justifyContent: "center", marginBottom: "10px"}}>
                     <button onClick={restartGame}>Restart</button>

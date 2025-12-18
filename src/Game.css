@@ -47,5 +47,9 @@
 .game-panel button:hover {
     background-color: #174bb0;
 }
+.board-fit {
+    transform-origin: top center;
+}
+
 
 
