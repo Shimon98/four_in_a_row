@@ -1,12 +1,11 @@
-
 import Board from "./utils/Board.jsx";
 import Player from "./utils/Player.jsx";
 import StartScreen from "./utils/StartScreen.jsx";
 import "./Game.css";
 import {createBoard} from "./utils/boardLogic.js";
 import {doMove} from "./utils/moveEngine.js";
-import { useEffect, useState } from "react";
-import { chooseBotColumn } from "./utils/botLogic.js";
+import {useEffect, useState} from "react";
+import {chooseBotColumn} from "./utils/botLogic.js";
 
 export default function Game() {
     const [players, setPlayers] = useState([
@@ -23,8 +22,8 @@ export default function Game() {
     const [moveCount, setMoveCount] = useState(0);
     const [hoverCol, setHoverCol] = useState(null)
     const [lastMove, setLastMove] = useState(null);
-
     const [isBotThinking, setIsBotThinking] = useState(false);
+
 
 
     const resetState = () => {
@@ -68,20 +67,22 @@ export default function Game() {
 
     const switchPlayer = () => {
         setCurrentPlayer(currentPlayer.id === players[0].id ? players[1] : players[0]);
+        if (currentPlayer.isBot){
+            setIsBotThinking===true;
+        }
+
     };
 
     const startBotTurn = () => {
-        setIsBotThinking(true);
         setTimeout(() => {
             const botCol = chooseBotColumn(board, currentPlayer,
                 players.find(p => !p.isBot)
             );
-            setIsBotThinking(false);
             if (botCol === null) return;
+            setIsBotThinking===false;
             handleColumnClick(botCol);
         }, 3000);
     };
-
 
 
     const handleColumnClick = (colIndex) => {
@@ -112,47 +113,47 @@ export default function Game() {
         if (!players[1].isBot) return;
         if (winner !== null || isDraw) return;
         if (!currentPlayer.isBot) return;
-        if (isBotThinking) return;
         startBotTurn();
-    }, [board, currentPlayer, winner, isDraw, players, isBotThinking]);
+    }, [board, currentPlayer, winner, isDraw, players]);
 
-
-
-    if (board === null) {
-        return (
-            <div className="game-background">
-                <h1 className="game-title">Four in a Row</h1>
-                <div className="game-panel">
-                    <StartScreen onStart={startGame}/>
-                </div>
-            </div>
-        );
-    }
     return (
         <div className="game-fit">
             <div className="game-background">
+
+                {board === null && (
+                    <h1 className="game-title">Four in a Row</h1>
+                )}
+
                 <div className="game-panel">
+                    {board === null ? (
+                        <StartScreen onStart={startGame}/>
+                    ) : (
+                        <>
+                            {winner !== null && <p>The winner is {winner}</p>}
+                            {isDraw && <p>It's a draw!</p>}
 
-                    {winner !== null && <p>The winner is {winner}</p>}
-                    {isDraw && <p>It's a draw!</p>}
+                            {winner === null && !isDraw && (
+                                <p>Current turn: {currentPlayer.id}</p>
+                            )}
 
-                    {winner === null && !isDraw && <p>Current turn: {currentPlayer.id}</p>}
-                    <Player id={currentPlayer.id} color={currentPlayer.color}/>
+                            <Player id={currentPlayer.id} color={currentPlayer.color}/>
 
-                    <Board
-                        board={board}
-                        shake={shake}
-                        onColumnClick={handleColumnClick}
-                        hoverCol={hoverCol}
-                        setHoverCol={setHoverCol}
-                        courntPlayer={currentPlayer}
-                        lastMove={lastMove}
-                    />
+                            <Board
+                                board={board}
+                                shake={shake}
+                                onColumnClick={handleColumnClick}
+                                hoverCol={hoverCol}
+                                setHoverCol={setHoverCol}
+                                courntPlayer={currentPlayer}
+                                lastMove={lastMove}
+                            />
 
-                    <div style={{display: "flex", gap: "10px", justifyContent: "center", marginBottom: "10px"}}>
-                        <button onClick={restartGame}>Restart</button>
-                        <button onClick={returnToMenu}>Return to Menu</button>
-                    </div>
+                            <div style={{display: "flex", gap: "10px", justifyContent: "center", marginBottom: "10px"}}>
+                                <button onClick={restartGame}>Restart</button>
+                                <button onClick={returnToMenu}>Return to Menu</button>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         </div>
