@@ -3,9 +3,10 @@ import Board from "./utils/Board.jsx";
 import Player from "./utils/Player.jsx";
 import StartScreen from "./utils/StartScreen.jsx";
 import "./Game.css";
-import { createBoard } from "./utils/boardLogic.js";
-import { doMove } from "./utils/moveEngine.js";
-
+import {createBoard} from "./utils/boardLogic.js";
+import {doMove} from "./utils/moveEngine.js";
+import { useEffect, useState } from "react";
+import { chooseBotColumn } from "./utils/botLogic.js";
 
 export default function Game() {
     const [players, setPlayers] = useState([
@@ -22,7 +23,6 @@ export default function Game() {
     const [moveCount, setMoveCount] = useState(0);
     const [hoverCol, setHoverCol] = useState(null)
     const [lastMove, setLastMove] = useState(null);
-
 
     const resetState = () => {
         setWinner(null);
@@ -92,7 +92,6 @@ export default function Game() {
     };
 
 
-
     if (board === null) {
         return (
             <div className="game-background">
@@ -104,31 +103,30 @@ export default function Game() {
         );
     }
     return (
-        <div className="game-background">
-            <h1 className="game-title">Four in a Row</h1>
-            <div className="game-panel">
+        <div className="game-fit">
+            <div className="game-background">
+                <div className="game-panel">
 
-                {winner !== null && <p>The winner is {winner}</p>}
-                {isDraw && <p>It's a draw!</p>}
+                    {winner !== null && <p>The winner is {winner}</p>}
+                    {isDraw && <p>It's a draw!</p>}
 
-                {winner === null && !isDraw && <p>Current turn: {currentPlayer.id}</p>}
-                <Player id={currentPlayer.id} color={currentPlayer.color}/>
+                    {winner === null && !isDraw && <p>Current turn: {currentPlayer.id}</p>}
+                    <Player id={currentPlayer.id} color={currentPlayer.color}/>
 
-                <div className="board-fit">
-                <Board
-                    board={board}
-                    shake={shake}
-                    onColumnClick={handleColumnClick}
-                    hoverCol={hoverCol}
-                    setHoverCol={setHoverCol}
-                    courntPlayer={currentPlayer}
-                    lastMove={lastMove}
-                />
-                </div>
+                    <Board
+                        board={board}
+                        shake={shake}
+                        onColumnClick={handleColumnClick}
+                        hoverCol={hoverCol}
+                        setHoverCol={setHoverCol}
+                        courntPlayer={currentPlayer}
+                        lastMove={lastMove}
+                    />
 
-                <div style={{display: "flex", gap: "10px", justifyContent: "center", marginBottom: "10px"}}>
-                    <button onClick={restartGame}>Restart</button>
-                    <button onClick={returnToMenu}>Return to Menu</button>
+                    <div style={{display: "flex", gap: "10px", justifyContent: "center", marginBottom: "10px"}}>
+                        <button onClick={restartGame}>Restart</button>
+                        <button onClick={returnToMenu}>Return to Menu</button>
+                    </div>
                 </div>
             </div>
         </div>
