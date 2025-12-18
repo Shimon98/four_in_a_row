@@ -32,6 +32,7 @@ export default function Game() {
         setShake(false);
         setHoverCol(null);
         setLastMove(null);
+        setIsBotThinking(false);
     };
 
     const startGame = (rows, cols, p1Color, p2Color, vsBot) => {
@@ -66,26 +67,17 @@ export default function Game() {
 
     const switchPlayer = () => {
         setCurrentPlayer(currentPlayer.id === players[0].id ? players[1] : players[0]);
-        if (currentPlayer.isBot){
-            setIsBotThinking===true;
+        if (currentPlayer.isBot) {
         }
     };
 
-    const startBotTurn = () => {
-        setTimeout(() => {
-            const botCol = chooseBotColumn(board, currentPlayer,
-                players.find(p => !p.isBot)
-            );
-            if (botCol === null) return;
-            setIsBotThinking===false;
-            handleColumnClick(botCol);
-        }, 3000);
-    };
 
-
-    const handleColumnClick = (colIndex) => {
+    const handleColumnClick = (colIndex, fromBot = false) => {
         if (winner !== null || isDraw) return;
-        if (isBotThinking) return;
+        if (isBotThinking && !fromBot) {
+            triggerShake();
+            return;
+        }
         const result = doMove(board, colIndex, currentPlayer, moveCount);
         if (!result.didPlace) {
             triggerShake();
@@ -112,8 +104,19 @@ export default function Game() {
         if (!players[1].isBot) return;
         if (winner !== null || isDraw) return;
         if (!currentPlayer.isBot) return;
-        startBotTurn();
-    }, [board, currentPlayer, winner, isDraw, players]);
+        const thinkingId = setTimeout(() => setIsBotThinking(true), 0);
+        const timerId = setTimeout(() => {
+            const human = players.find((p) => !p.isBot);
+            const botCol = chooseBotColumn(board, currentPlayer, human, moveCount);
+            setIsBotThinking(false);
+            if (botCol === null) return;
+            handleColumnClick(botCol, true);
+        }, 3000);
+        return () => {
+            clearTimeout(thinkingId);
+            clearTimeout(timerId);
+        };
+    }, [board, currentPlayer, winner, isDraw, players, moveCount]);
 
     return (
         <div className="game-fit">
